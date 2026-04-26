@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/booking")
 @RequiredArgsConstructor
@@ -28,5 +30,10 @@ public class BookingController {
     @PatchMapping("/{bookingId}/complete")
     public ResponseEntity<BookingResponseDto> completeRide(@PathVariable long bookingId) {
         return ResponseEntity.status(HttpStatus.OK).body(bookingService.completeRide(bookingId));
+    }
+
+    @GetMapping("/available")
+    public ResponseEntity<List<BookingResponseDto>> getBookingsByStatus() {
+        return ResponseEntity.status(HttpStatus.OK).body(bookingService.getAvailableRides());
     }
 }

@@ -10,6 +10,8 @@ import com.taxi.taxi_booking.repository.BookingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -52,6 +54,12 @@ public class BookingService {
         }
         booking.setStatus(Status.COMPLETED);
         return bookingToBookingResponseDto(bookingRepository.save(booking));
+    }
+
+    public List<BookingResponseDto> getAvailableRides() {
+        List<Booking> bookings = bookingRepository.findByStatus(Status.REQUESTED);
+
+        return bookings.stream().map(b -> bookingToBookingResponseDto(b)).collect(Collectors.toList());
     }
 
     private BookingResponseDto bookingToBookingResponseDto(Booking booking){
