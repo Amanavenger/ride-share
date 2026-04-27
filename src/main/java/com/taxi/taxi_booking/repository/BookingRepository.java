@@ -3,7 +3,6 @@ package com.taxi.taxi_booking.repository;
 import com.taxi.taxi_booking.entity.Booking;
 import com.taxi.taxi_booking.entity.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

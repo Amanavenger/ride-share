@@ -16,6 +16,7 @@ import java.util.List;
 public class BookingController {
 
    private final BookingService bookingService;
+   //private final OptimisticLock optimisticLock;
 
     @PostMapping("/request")
     public ResponseEntity<BookingResponseDto> booking(@RequestBody RequestRideDto requestRideDto) {
@@ -25,15 +26,26 @@ public class BookingController {
     @PatchMapping("/{bookingId}/accept")
     public ResponseEntity<BookingResponseDto> acceptRide(@PathVariable long bookingId, @RequestParam long driverId) {
         return ResponseEntity.status(HttpStatus.OK).body(bookingService.acceptRide(bookingId, driverId));
-    }
-
-    @PatchMapping("/{bookingId}/complete")
-    public ResponseEntity<BookingResponseDto> completeRide(@PathVariable long bookingId) {
-        return ResponseEntity.status(HttpStatus.OK).body(bookingService.completeRide(bookingId));
+        //return ResponseEntity.status(HttpStatus.OK).body(optimisticLock.testOptimisticLock(bookingId, driverId));
     }
 
     @GetMapping("/available")
     public ResponseEntity<List<BookingResponseDto>> getBookingsByStatus() {
         return ResponseEntity.status(HttpStatus.OK).body(bookingService.getAvailableRides());
+    }
+
+    @PatchMapping("/{bookingId}/start")
+    public ResponseEntity<BookingResponseDto> startRide(@PathVariable long bookingId, @RequestParam long driverId) {
+        return ResponseEntity.status(HttpStatus.OK).body(bookingService.startRide(bookingId, driverId));
+    }
+
+    @PatchMapping("/{bookingId}/complete")
+    public ResponseEntity<BookingResponseDto> completeRide(@PathVariable long bookingId, @RequestParam long driverId) {
+        return ResponseEntity.status(HttpStatus.OK).body(bookingService.completeRide(bookingId, driverId));
+    }
+
+    @PatchMapping("/{bookingId}/cancel")
+    public ResponseEntity<BookingResponseDto> cancelRide(@PathVariable long bookingId, @RequestParam long driverId) {
+        return ResponseEntity.status(HttpStatus.OK).body(bookingService.cancelRide(bookingId, driverId));
     }
 }
