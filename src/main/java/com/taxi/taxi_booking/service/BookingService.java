@@ -82,7 +82,7 @@ public class BookingService {
     public BookingResponseDto completeRide(long bookingId, long driverId) {
         Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new ResourceNotFoundException("Booking Not Found: " + bookingId));
 
-        if(booking.getStatus() == Status.MATCHED || booking.getStatus() == Status.CANCELLED) {
+        if(booking.getStatus() != Status.IN_TRANSIT) {
             throw new IllegalStateException("Cannot complete ride. Invalid current status: " + booking.getStatus());
         }
         if(booking.getDriverId() == null || booking.getDriverId() != driverId) {
